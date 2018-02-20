@@ -102,3 +102,7 @@ ENV/
 
 # PyCharm
 .idea/
+
+# ISE Webpack Edition
+VHDLSource/ISEProject/
+VHDLSource/*.vhd
