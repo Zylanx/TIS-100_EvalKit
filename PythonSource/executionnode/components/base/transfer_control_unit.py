@@ -5,13 +5,12 @@ from myhdl import enum, block, always_seq, always_comb, Signal, intbv
 from executionnode.utils import CommInterface
 from executionnode.utils.enums import commOpType, portType
 
-stateType = enum("IDLE", "RX_TRANSFER", "TX_TRANSFER")
-
-
-# TODO: THIS IS A BIG TODO!!! Remove the infered latchs
+# Note: This has been done, but will be kept as an ongoing check
+# TODO: THIS IS A BIG TODO!!! Remove the inferred latches
 
 @block
 def TransferControlUnit(clk, rst, clkEnable, commStart, commPause, commType, rxPort, txPort, dataIn, dataOut, rxLeft: CommInterface, rxRight: CommInterface, rxUp: CommInterface, rxDown: CommInterface, txLeft: CommInterface, txRight: CommInterface, txUp: CommInterface, txDown: CommInterface):
+	stateType = enum("IDLE", "RX_TRANSFER", "TX_TRANSFER")
 	
 	state = Signal(stateType.IDLE)
 	lastPort = Signal(portType.LAST)
@@ -201,14 +200,14 @@ def TransferControlUnit(clk, rst, clkEnable, commStart, commPause, commType, rxP
 		if clkEnable:
 			if state == stateType.IDLE:
 				if commStart:
-					if commType == commOpType.Rx:
+					if commType == commOpType.RX:
 						if not rxReady:
 							state.next = stateType.RX_TRANSFER
 						else:
 							lastPort.next = rxPortEquiv
-					elif commType == commOpType.Tx:
+					elif commType == commOpType.TX:
 						state.next = stateType.TX_TRANSFER
-					elif commType == commOpType.RxTx:
+					elif commType == commOpType.RX_TX:
 						if not rxReady:
 							state.next = stateType.RX_TRANSFER
 						else:
@@ -219,7 +218,7 @@ def TransferControlUnit(clk, rst, clkEnable, commStart, commPause, commType, rxP
 			elif state == stateType.RX_TRANSFER:
 				if rxReady:
 					lastPort.next = rxPortEquiv
-					if commType == commOpType.Rx:
+					if commType == commOpType.RX:
 						state.next = stateType.IDLE
 					else: # commType == commOpType.RxTx
 						receivedData.next = rxData
@@ -244,12 +243,12 @@ def TransferControlUnit(clk, rst, clkEnable, commStart, commPause, commType, rxP
 				if rxReady:
 					dataOut.next = rxData
 				
-				if commType == commOpType.Rx:
+				if commType == commOpType.RX:
 					rxOpen.next = 1
 					
 					if rxReady:
 						commPause.next = 0
-				elif commType == commOpType.RxTx:
+				elif commType == commOpType.RX_TX:
 					rxOpen.next = 1
 		elif state == stateType.RX_TRANSFER:
 			commPause.next = 1
@@ -257,15 +256,15 @@ def TransferControlUnit(clk, rst, clkEnable, commStart, commPause, commType, rxP
 			
 			if rxReady:
 				dataOut.next = rxData
-				if commType == commOpType.Rx:
+				if commType == commOpType.RX:
 					commPause.next = 0
 		elif state == stateType.TX_TRANSFER:
 			commPause.next = 1
 			txReq.next = 1
 			
-			if commType == commOpType.Tx:
+			if commType == commOpType.TX:
 				txData.next = dataIn
-			elif commType == commOpType.RxTx:
+			elif commType == commOpType.RX_TX:
 				txData.next = receivedData
 				
 			if txReady:

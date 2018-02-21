@@ -1,3 +1,4 @@
 __author__ = 'Zylanx'
 
-from .comm_interface import CommInterface
+from .interfaces import PCControlInterface, CommInterface, StatusBitInterface
+from .enums import opcodeEnum, portType, commOpType, regOpType

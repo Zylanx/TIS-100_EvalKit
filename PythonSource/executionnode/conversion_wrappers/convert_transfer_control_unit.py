@@ -9,16 +9,16 @@ from executionnode.components import TransferControlUnit
 from executionnode.utils import CommInterface
 from executionnode.utils.enums import portType, commOpType
 
-def ConvertPortManager(hdl, path):
+def ConvertTransferControlUnit(hdl, path):
 	clk = Signal(bool(0))
 	rst = ResetSignal(0, 1, False)
 	clkEnable = Signal(bool(0))
 	commStart = Signal(bool(0))
 	commPause = Signal(bool(0))
 	
-	commType = Signal(commOpType.Rx)
-	rxPort = Signal(portType.LEFT)
-	txPort = Signal(portType.LEFT)
+	commType = Signal(commOpType.RX)
+	rxPort = Signal(portType.NIL)
+	txPort = Signal(portType.NIL)
 	
 	dataIn = Signal(intbv(0, -999, 1000))
 	dataOut = Signal(intbv(0, -999, 1000))
@@ -38,4 +38,4 @@ def ConvertPortManager(hdl, path):
 
 if __name__ == "__main__":
 	convPath = (Path(os.path.dirname(os.path.realpath(__file__))) / "../../../VHDLSource").resolve()
-	ConvertPortManager("VHDL", convPath)
+	ConvertTransferControlUnit("VHDL", convPath)
