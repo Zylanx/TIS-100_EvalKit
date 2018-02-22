@@ -1,0 +1,1201 @@
+$date
+    Thu Feb 22 18:38:51 2018
+$end
+$version
+    MyHDL 1.0dev
+$end
+$timescale
+    1ns
+$end
+
+$scope module testbench $end
+$var reg 11 ! dataOut_2 $end
+$var reg 11 " dataOut_1 $end
+$var reg 1 # clkEnable $end
+$var reg 1 $ rst $end
+$var reg 1 % clk $end
+$scope module NodeCore_1 $end
+$var reg 1 # clkEnable $end
+$var reg 1 $ rst $end
+$var reg 1 % clk $end
+$var reg 11 " dataOut $end
+$var reg 2 & commType $end
+$var reg 1 ' commPause $end
+$var reg 1 ( commStart $end
+$var reg 3 ) aluOp $end
+$var reg 2 * regOp $end
+$var reg 3 + txPort $end
+$var reg 3 , rxPort $end
+$var reg 1 - jmpEnable $end
+$var reg 16 . instr $end
+$var reg 4 / addr $end
+$var reg 11 0 txData $end
+$var reg 11 1 rxData $end
+$var reg 11 2 pcDataLoad $end
+$var reg 11 3 nil $end
+$var reg 11 4 jroOffset $end
+$var reg 11 5 jmpDest $end
+$var reg 3 6 inputPipeSrc $end
+$var reg 11 7 dataPipeOut $end
+$var reg 11 8 dataPipeIn $end
+$var reg 11 9 const $end
+$var reg 11 : accOut $end
+$scope module InstrROM_1 $end
+$var reg 16 . dataOut $end
+$var reg 4 / addr $end
+$upscope $end
+$scope module InstrBreakout_1 $end
+$var reg 11 4 jroOffset $end
+$var reg 11 5 jmpDest $end
+$var reg 16 . instr $end
+$var reg 11 9 const $end
+$upscope $end
+$scope module ControlUnit_1 $end
+$var reg 3 + txPort $end
+$var reg 3 , rxPort $end
+$var reg 2 * regOp $end
+$var reg 1 - jmpEnable $end
+$var reg 16 . instr $end
+$var reg 3 6 inputPipeSrc $end
+$var reg 2 & commType $end
+$var reg 1 ( commStart $end
+$var reg 1 ' commPause $end
+$var reg 3 ) aluOp $end
+$var reg 3 ; src $end
+$var reg 1 < opcodeType $end
+$var reg 3 = opcode $end
+$var reg 1 > jroType $end
+$var reg 3 ? jroSrc $end
+$var reg 5 @ jroOffset $end
+$var reg 3 A jmpFlags $end
+$var reg 4 B jmpDest $end
+$var reg 3 C dest $end
+$var reg 3 D constDest $end
+$var reg 11 E const $end
+$var reg 1 F aluStatusBits_eq $end
+$var reg 1 G aluStatusBits_gt $end
+$var reg 1 H aluStatusBits_lt $end
+$var reg 1 I pcControlBits_inc $end
+$var reg 1 J pcControlBits_load $end
+$upscope $end
+$scope module RegisterFile_1 $end
+$var reg 1 $ rst $end
+$var reg 1 % clk $end
+$var reg 2 * regOp $end
+$var reg 11 K debugBAK $end
+$var reg 11 L debugACC $end
+$var reg 11 : dataOut $end
+$var reg 11 7 dataIn $end
+$var reg 1 # clkEnable $end
+$var reg 1 M curAcc $end
+$scope module registerFile $end
+$var reg 11 N registerFile(0) $end
+$var reg 11 O registerFile(1) $end
+$upscope $end
+$upscope $end
+$scope module ClampedPC_1 $end
+$var reg 4 / pcOut $end
+$var reg 11 2 dataLoad $end
+$var reg 1 # clkEnable $end
+$var reg 1 $ rst $end
+$var reg 1 % clk $end
+$var reg 4 P clampedData $end
+$scope module PCClamper_1 $end
+$var reg 4 P dataOut $end
+$var reg 11 2 dataIn $end
+$upscope $end
+$scope module PC_1 $end
+$var reg 1 $ rst $end
+$var reg 1 % clk $end
+$var reg 4 / pcOut $end
+$var reg 4 P dataLoad $end
+$var reg 1 # clkEnable $end
+$var reg 4 Q count $end
+$var reg 1 J controlBits_load $end
+$var reg 1 I controlBits_inc $end
+$upscope $end
+$upscope $end
+$scope module ALU_1 $end
+$var reg 11 8 input2 $end
+$var reg 11 : input1 $end
+$var reg 11 7 dataOut $end
+$var reg 3 ) aluOp $end
+$var reg 11 R outputInt $end
+$var reg 12 S intAcc $end
+$var reg 1 F aluStatusBits_eq $end
+$var reg 1 G aluStatusBits_gt $end
+$var reg 1 H aluStatusBits_lt $end
+$upscope $end
+$scope module TransferControlUnit_1 $end
+$var reg 1 $ rst $end
+$var reg 1 % clk $end
+$var reg 3 + txPort $end
+$var reg 3 , rxPort $end
+$var reg 11 1 dataOut $end
+$var reg 11 0 dataIn $end
+$var reg 2 & commType $end
+$var reg 1 ( commStart $end
+$var reg 1 ' commPause $end
+$var reg 1 # clkEnable $end
+$var reg 1 T txReq $end
+$var reg 1 U txReady $end
+$var reg 3 V txPortEquiv $end
+$var reg 1 W txOpen $end
+$var reg 11 X txData $end
+$var real 1 Y state $end
+$var reg 1 Z rxReq $end
+$var reg 1 [ rxReady $end
+$var reg 3 \ rxPortEquiv $end
+$var reg 1 ] rxOpen $end
+$var reg 11 ^ rxData $end
+$var reg 11 _ receivedData $end
+$var reg 3 ` lastPort $end
+$var reg 1 a rxLeft_open $end
+$var reg 1 b rxRight_open $end
+$var reg 1 c rxUp_open $end
+$var reg 1 d rxDown_open $end
+$var reg 1 e txLeft_req $end
+$var reg 1 f txRight_req $end
+$var reg 1 g txUp_req $end
+$var reg 1 h txDown_req $end
+$var reg 11 i txLeft_data $end
+$var reg 11 j txRight_data $end
+$var reg 11 k txUp_data $end
+$var reg 11 l txDown_data $end
+$var reg 1 m rxLeft_req $end
+$var reg 11 n rxLeft_data $end
+$var reg 1 o rxRight_req $end
+$var reg 11 p rxRight_data $end
+$var reg 1 q rxUp_req $end
+$var reg 11 r rxUp_data $end
+$var reg 1 s rxDown_req $end
+$var reg 11 t rxDown_data $end
+$var reg 1 u txLeft_open $end
+$var reg 1 v txRight_open $end
+$var reg 1 w txUp_open $end
+$var reg 1 x txDown_open $end
+$upscope $end
+$upscope $end
+$scope module NodeCore_2 $end
+$var reg 1 # clkEnable $end
+$var reg 1 $ rst $end
+$var reg 1 % clk $end
+$var reg 11 ! dataOut $end
+$var reg 2 y commType $end
+$var reg 1 z commPause $end
+$var reg 1 { commStart $end
+$var reg 3 | aluOp $end
+$var reg 2 } regOp $end
+$var reg 3 ~ txPort $end
+$var reg 3 "! rxPort $end
+$var reg 1 "" jmpEnable $end
+$var reg 16 "# instr $end
+$var reg 4 "$ addr $end
+$var reg 11 "% txData $end
+$var reg 11 "& rxData $end
+$var reg 11 "' pcDataLoad $end
+$var reg 11 "( nil $end
+$var reg 11 ") jroOffset $end
+$var reg 11 "* jmpDest $end
+$var reg 3 "+ inputPipeSrc $end
+$var reg 11 ", dataPipeOut $end
+$var reg 11 "- dataPipeIn $end
+$var reg 11 ". const $end
+$var reg 11 "/ accOut $end
+$scope module InstrROM_2 $end
+$var reg 16 "# dataOut $end
+$var reg 4 "$ addr $end
+$upscope $end
+$scope module InstrBreakout_2 $end
+$var reg 11 ") jroOffset $end
+$var reg 11 "* jmpDest $end
+$var reg 16 "# instr $end
+$var reg 11 ". const $end
+$upscope $end
+$scope module ControlUnit_2 $end
+$var reg 3 ~ txPort $end
+$var reg 3 "! rxPort $end
+$var reg 2 } regOp $end
+$var reg 1 "" jmpEnable $end
+$var reg 16 "# instr $end
+$var reg 3 "+ inputPipeSrc $end
+$var reg 2 y commType $end
+$var reg 1 { commStart $end
+$var reg 1 z commPause $end
+$var reg 3 | aluOp $end
+$var reg 3 "0 src $end
+$var reg 1 "1 opcodeType $end
+$var reg 3 "2 opcode $end
+$var reg 1 "3 jroType $end
+$var reg 3 "4 jroSrc $end
+$var reg 5 "5 jroOffset $end
+$var reg 3 "6 jmpFlags $end
+$var reg 4 "7 jmpDest $end
+$var reg 3 "8 dest $end
+$var reg 3 "9 constDest $end
+$var reg 11 ": const $end
+$var reg 1 "; aluStatusBits_eq $end
+$var reg 1 "< aluStatusBits_gt $end
+$var reg 1 "= aluStatusBits_lt $end
+$var reg 1 "> pcControlBits_inc $end
+$var reg 1 "? pcControlBits_load $end
+$upscope $end
+$scope module RegisterFile_2 $end
+$var reg 1 $ rst $end
+$var reg 1 % clk $end
+$var reg 2 } regOp $end
+$var reg 11 "@ debugBAK $end
+$var reg 11 "A debugACC $end
+$var reg 11 "/ dataOut $end
+$var reg 11 ", dataIn $end
+$var reg 1 # clkEnable $end
+$var reg 1 "B curAcc $end
+$scope module registerFile $end
+$var reg 11 "C registerFile(0) $end
+$var reg 11 "D registerFile(1) $end
+$upscope $end
+$upscope $end
+$scope module ClampedPC_2 $end
+$var reg 4 "$ pcOut $end
+$var reg 11 "' dataLoad $end
+$var reg 1 # clkEnable $end
+$var reg 1 $ rst $end
+$var reg 1 % clk $end
+$var reg 4 "E clampedData $end
+$scope module PCClamper_2 $end
+$var reg 4 "E dataOut $end
+$var reg 11 "' dataIn $end
+$upscope $end
+$scope module PC_2 $end
+$var reg 1 $ rst $end
+$var reg 1 % clk $end
+$var reg 4 "$ pcOut $end
+$var reg 4 "E dataLoad $end
+$var reg 1 # clkEnable $end
+$var reg 4 "F count $end
+$var reg 1 "? controlBits_load $end
+$var reg 1 "> controlBits_inc $end
+$upscope $end
+$upscope $end
+$scope module ALU_2 $end
+$var reg 11 "- input2 $end
+$var reg 11 "/ input1 $end
+$var reg 11 ", dataOut $end
+$var reg 3 | aluOp $end
+$var reg 11 "G outputInt $end
+$var reg 12 "H intAcc $end
+$var reg 1 "; aluStatusBits_eq $end
+$var reg 1 "< aluStatusBits_gt $end
+$var reg 1 "= aluStatusBits_lt $end
+$upscope $end
+$scope module TransferControlUnit_2 $end
+$var reg 1 $ rst $end
+$var reg 1 % clk $end
+$var reg 3 ~ txPort $end
+$var reg 3 "! rxPort $end
+$var reg 11 "& dataOut $end
+$var reg 11 "% dataIn $end
+$var reg 2 y commType $end
+$var reg 1 { commStart $end
+$var reg 1 z commPause $end
+$var reg 1 # clkEnable $end
+$var reg 1 "I txReq $end
+$var reg 1 "J txReady $end
+$var reg 3 "K txPortEquiv $end
+$var reg 1 "L txOpen $end
+$var reg 11 "M txData $end
+$var real 1 "N state $end
+$var reg 1 "O rxReq $end
+$var reg 1 "P rxReady $end
+$var reg 3 "Q rxPortEquiv $end
+$var reg 1 "R rxOpen $end
+$var reg 11 "S rxData $end
+$var reg 11 "T receivedData $end
+$var reg 3 "U lastPort $end
+$var reg 1 u rxLeft_open $end
+$var reg 1 "V rxRight_open $end
+$var reg 1 "W rxUp_open $end
+$var reg 1 "X rxDown_open $end
+$var reg 1 m txLeft_req $end
+$var reg 1 "Y txRight_req $end
+$var reg 1 "Z txUp_req $end
+$var reg 1 "[ txDown_req $end
+$var reg 11 n txLeft_data $end
+$var reg 11 "\ txRight_data $end
+$var reg 11 "] txUp_data $end
+$var reg 11 "^ txDown_data $end
+$var reg 1 e rxLeft_req $end
+$var reg 11 i rxLeft_data $end
+$var reg 1 "_ rxRight_req $end
+$var reg 11 "` rxRight_data $end
+$var reg 1 "a rxUp_req $end
+$var reg 11 "b rxUp_data $end
+$var reg 1 "c rxDown_req $end
+$var reg 11 "d rxDown_data $end
+$var reg 1 a txLeft_open $end
+$var reg 1 "e txRight_open $end
+$var reg 1 "f txUp_open $end
+$var reg 1 "g txDown_open $end
+$upscope $end
+$upscope $end
+$upscope $end
+
+$enddefinitions $end
+$dumpvars
+b00000000000 !
+b00000000000 "
+1#
+1$
+0%
+b00 &
+0'
+0(
+b000 )
+b00 *
+b000 +
+b000 ,
+0-
+b0000000000000000 .
+b0000 /
+b00000000000 0
+b00000000000 1
+b00000000000 2
+b00000000000 3
+b00000000000 4
+b00000000000 5
+b000 6
+b00000000000 7
+b00000000000 8
+b00000000000 9
+b00000000000 :
+b000 ;
+0<
+b000 =
+0>
+b000 ?
+b00000 @
+b000 A
+b0000 B
+b000 C
+b000 D
+b00000000000 E
+0F
+0G
+0H
+0I
+0J
+b00000000000 K
+b00000000000 L
+0M
+b00000000000 N
+b00000000000 O
+b0000 P
+b0000 Q
+b00000000000 R
+b000000000000 S
+0T
+0U
+b000 V
+0W
+b00000000000 X
+sIDLE Y
+0Z
+0[
+b000 \
+0]
+b00000000000 ^
+b00000000000 _
+b111 `
+0a
+0b
+0c
+0d
+0e
+0f
+0g
+0h
+b00000000000 i
+b00000000000 j
+b00000000000 k
+b00000000000 l
+0m
+b00000000000 n
+0o
+b00000000000 p
+0q
+b00000000000 r
+0s
+b00000000000 t
+0u
+0v
+0w
+0x
+b00 y
+0z
+0{
+b000 |
+b00 }
+b000 ~
+b000 "!
+0""
+b0000000000000000 "#
+b0000 "$
+b00000000000 "%
+b00000000000 "&
+b00000000000 "'
+b00000000000 "(
+b00000000000 ")
+b00000000000 "*
+b000 "+
+b00000000000 ",
+b00000000000 "-
+b00000000000 ".
+b00000000000 "/
+b000 "0
+0"1
+b000 "2
+0"3
+b000 "4
+b00000 "5
+b000 "6
+b0000 "7
+b000 "8
+b000 "9
+b00000000000 ":
+0";
+0"<
+0"=
+0">
+0"?
+b00000000000 "@
+b00000000000 "A
+0"B
+b00000000000 "C
+b00000000000 "D
+b0000 "E
+b0000 "F
+b00000000000 "G
+b000000000000 "H
+0"I
+0"J
+b000 "K
+0"L
+b00000000000 "M
+sIDLE "N
+0"O
+0"P
+b000 "Q
+0"R
+b00000000000 "S
+b00000000000 "T
+b111 "U
+0"V
+0"W
+0"X
+0"Y
+0"Z
+0"[
+b00000000000 "\
+b00000000000 "]
+b00000000000 "^
+0"_
+b00000000000 "`
+0"a
+b00000000000 "b
+0"c
+b00000000000 "d
+0"e
+0"f
+0"g
+$end
+1";
+b01 }
+1">
+1F
+b01 *
+1I
+b1100100001100100 .
+b00000000100 5
+b00000000100 4
+b00001100100 9
+1<
+b100 =
+b100 ;
+b001 C
+b100 A
+b100 ?
+b00100 @
+b0100 B
+b001 D
+b00001100100 E
+b100 ,
+b001 +
+b101 6
+b100 )
+b00001100100 8
+b100 \
+b001 V
+b000001100100 S
+b00001100100 R
+0F
+1G
+b00001100100 7
+b00001100100 2
+b00001100100 0
+b1111 P
+#10
+1%
+#20
+0%
+0$
+#30
+1%
+b0001 "F
+b0001 Q
+b00001100100 N
+b00001100100 :
+b00001100100 L
+b0001 /
+b0001 "$
+b1100100000001010 "#
+b1100100000010100 .
+b00001100100 "
+b000 C
+b10100 @
+b00000010100 E
+b11111110100 4
+b00000010100 9
+b00000001010 "*
+b00000001010 ")
+b00000001010 ".
+1"1
+b100 "2
+b100 "0
+b100 "6
+b100 "4
+b01010 "5
+b1010 "7
+b001 "9
+b00000001010 ":
+b100 "!
+b101 "+
+b100 |
+b00000010100 8
+b000 +
+b000 V
+b000000010100 S
+b00000001010 "-
+b100 "Q
+b000000001010 "H
+b00000010100 R
+b00000010100 7
+b00000001010 "G
+0";
+1"<
+b00000001010 ",
+b00000010100 0
+b00000010100 2
+b00000001010 "'
+b00000001010 "%
+b1010 "E
+#40
+0%
+#50
+1%
+b00000010100 N
+b0010 Q
+b00000001010 "C
+b0010 "F
+b0010 "$
+b00000001010 "/
+b00000001010 "A
+b0010 /
+b00000010100 :
+b00000010100 L
+b00000010100 "
+b0000010000000000 .
+b00000001010 !
+b0000000000000000 "#
+0"1
+b000 "2
+b000 "0
+b000 "6
+b000 "4
+b00000 "5
+b0000 "7
+b000 "9
+b00000000000 ":
+b00000000000 "*
+b00000000000 ")
+b00000000000 ".
+b00000000000 5
+b00000000000 4
+b10000011001 9
+0<
+b000 =
+b010 ;
+b010 A
+b010 ?
+b00000 @
+b0000 B
+b000 D
+b10000000000 E
+1(
+b010 ,
+b010 6
+b000 )
+b10000011001 8
+b00000000000 "-
+b000 "+
+b000 "!
+b000 |
+b000 "Q
+b110000101101 S
+b00000000000 8
+b010 \
+1'
+1]
+1a
+b00 *
+0I
+b000000010100 S
+b10000101101 R
+0G
+1H
+b10000101101 7
+b00000010100 R
+b00000010100 7
+1G
+0H
+b10000101101 2
+b10000101101 0
+b0000 P
+b00000010100 0
+b00000010100 2
+b1111 P
+#60
+0%
+#70
+1%
+b0011 "F
+sRX_TRANSFER Y
+b0011 "$
+#80
+0%
+#90
+1%
+b0100 "F
+b0100 "$
+b0001001010000000 "#
+b01010000000 ".
+b001 "2
+b001 "0
+b010 "8
+b001 "6
+b001 "4
+b010 "9
+b01010000000 ":
+b01 y
+1{
+b00 }
+b001 "!
+b010 ~
+b001 "+
+b100 |
+b000000000000 "H
+b00000001010 "-
+b001 "Q
+1"L
+b010 "K
+1z
+0">
+b000000001010 "H
+b00000000000 "G
+b00000000000 ",
+1";
+0"<
+b00000001010 "G
+0";
+1"<
+b00000001010 ",
+b00000000000 "%
+b00000000000 "'
+b0000 "E
+b00000001010 "'
+b00000001010 "%
+b1010 "E
+#100
+0%
+#110
+1%
+sTX_TRANSFER "N
+1"I
+b00000001010 "M
+1m
+b00000001010 n
+b00000001010 "\
+b00000001010 "]
+b00000001010 "^
+1"J
+0z
+1Z
+b00000001010 ^
+1[
+1">
+0'
+b00000001010 1
+b00000001010 8
+1I
+b01 *
+b000000011110 S
+b00000011110 R
+b00000011110 7
+b00000011110 2
+b00000011110 0
+#120
+0%
+#130
+1%
+b00000011110 N
+b0011 Q
+b010 `
+b00000001010 _
+sIDLE Y
+b0101 "F
+b010 "U
+sIDLE "N
+1z
+0"I
+b00000000000 "M
+b0101 "$
+b0011 /
+b00000011110 :
+b00000011110 L
+b000000101000 S
+b00000011110 "
+b0001001010000000 .
+b0000000000000000 "#
+0m
+b00000000000 n
+b00000000000 "\
+b00000000000 "]
+b00000000000 "^
+0"J
+0">
+0Z
+b00000000000 ^
+b000 "2
+b000 "0
+b000 "8
+b000 "6
+b000 "4
+b000 "9
+b00000000000 ":
+b00000000000 ".
+b001 =
+b001 ;
+b010 C
+b001 A
+b001 ?
+b010 D
+b01010000000 E
+b01010000000 9
+b00000101000 R
+b00000101000 7
+b00 *
+b01 &
+b001 ,
+b010 +
+b001 6
+b100 )
+0{
+b00 y
+b000 "!
+b000 ~
+b000 "+
+b000 |
+b00000000000 1
+0[
+1'
+0]
+b00000011110 8
+b000000010100 "H
+b00000000000 "-
+b000 "Q
+0"L
+b000 "K
+0z
+b000000001010 S
+0a
+b001 \
+b010 V
+b00000101000 0
+b00000101000 2
+b00000001010 R
+b01 }
+1">
+b000000001010 "H
+b00000010100 "G
+b000000011110 S
+0I
+b00000011110 R
+b00000010100 ",
+b00000001010 "G
+b00000001010 7
+b00000001010 2
+b00000001010 0
+b00000001010 ",
+b00000010100 "%
+b00000010100 "'
+b00000011110 7
+b00000011110 0
+b00000011110 2
+b1111 "E
+b00000001010 "'
+b00000001010 "%
+b1010 P
+b1010 "E
+b1111 P
+#140
+0%
+#150
+1%
+b0110 "F
+sTX_TRANSFER Y
+1T
+b00000011110 X
+b0110 "$
+b0001010001000000 "#
+1e
+b00000011110 i
+b00000011110 j
+b00000011110 k
+b00000011110 l
+b10001000000 ".
+b001 "2
+b010 "0
+b001 "8
+b010 "6
+b010 "4
+b010 "9
+b10001000000 ":
+1{
+b010 "!
+b001 ~
+b010 "+
+b100 |
+b000000000000 "H
+1"O
+b00000011110 "S
+b010 "Q
+b001 "K
+1z
+1"R
+1u
+1"P
+b00 }
+0">
+b00000000000 "G
+b00000000000 ",
+1";
+0"<
+0z
+b00000011110 "&
+1W
+1U
+b00000011110 "-
+1">
+b01 }
+b00000000000 "%
+b00000000000 "'
+b0000 "E
+b000000011110 "H
+0'
+1I
+b00000011110 "G
+0";
+1"<
+b00000011110 ",
+b00000011110 "'
+b00000011110 "%
+b1111 "E
+#160
+0%
+#170
+1%
+b0100 Q
+sIDLE Y
+b00000011110 "C
+b0111 "F
+b00000011110 "T
+b0111 "$
+b00000011110 "/
+b00000011110 "A
+1'
+0T
+b00000000000 X
+b0100 /
+b0001000001000000 .
+0e
+b00000000000 i
+b00000000000 j
+b00000000000 k
+b00000000000 l
+0U
+0I
+b00000011110 !
+b0000000000000000 "#
+b000 "2
+b000 "0
+b000 "8
+b000 "6
+b000 "4
+b000 "9
+b00000000000 ":
+b00000000000 ".
+0"O
+b00000000000 "S
+b00001000000 9
+b000 ;
+b001 C
+b000 A
+b000 ?
+b00001000000 E
+0(
+b000 ,
+b001 +
+b00 &
+b000 6
+b00000000000 "&
+0"P
+0{
+b000 "!
+b000 ~
+b000 "+
+b000 |
+b000000111100 "H
+b00000000000 "-
+0u
+b000 "Q
+b000 "K
+0"R
+b00000000000 8
+0'
+b000 \
+0W
+b001 V
+b01 *
+1I
+b000000000000 S
+b000000011110 "H
+b00000111100 "G
+b00000111100 ",
+b00000011110 "G
+b00000000000 R
+1F
+0G
+b00000000000 7
+b00000011110 ",
+b00000111100 "%
+b00000111100 "'
+b00000011110 "'
+b00000011110 "%
+b00000000000 2
+b00000000000 0
+b0000 P
+#180
+0%
+#190
+1%
+b1000 "F
+b0101 Q
+b00000000000 N
+b00000000000 :
+b00000000000 L
+b0101 /
+b1000 "$
+b0000000000000000 .
+b00000000000 "
+b000 =
+b000 C
+b000 D
+b00000000000 E
+b00000000000 9
+b000 +
+b000 )
+b000 V
+#200
+0%
+#210
+1%
+b0110 Q
+b1001 "F
+b1001 "$
+b0110 /
+#220
+0%
+#230
+1%
+b1010 "F
+b0111 Q
+b0111 /
+b1010 "$
+#240
+0%
+#250
+1%
+b1000 Q
+b1011 "F
+b1011 "$
+b1000 /
+#260
+0%
+#270
+1%
+b1100 "F
+b1001 Q
+b1001 /
+b1100 "$
+#280
+0%
+#290
+1%
+b1010 Q
+b1101 "F
+b1101 "$
+b1010 /
+#300
+0%
+#310
+1%
+b1110 "F
+b1011 Q
+b1011 /
+b1110 "$
+#320
+0%
+#330
+1%
+b1100 Q
+b1111 "F
+b1111 "$
+b1100 /
+#340
+0%
+#350
+1%
+b0000 "F
+b1101 Q
+b1101 /
+b0000 "$
+#360
+0%
+#370
+1%
+b1110 Q
+b0001 "F
+b0001 "$
+b1110 /
+b1100100000001010 "#
+b00000001010 "*
+b00000001010 ")
+b00000001010 ".
+1"1
+b100 "2
+b100 "0
+b100 "6
+b100 "4
+b01010 "5
+b1010 "7
+b001 "9
+b00000001010 ":
+b101 "+
+b100 "!
+b100 |
+b000000000000 "H
+b100 "Q
+b00000001010 "-
+b000000001010 "H
+b00000000000 "G
+b00000000000 ",
+1";
+0"<
+b00000001010 "G
+0";
+1"<
+b00000001010 ",
+b00000000000 "%
+b00000000000 "'
+b0000 "E
+b00000001010 "'
+b00000001010 "%
+b1010 "E
+#380
+0%
+#390
+1%
+b0010 "F
+b00000001010 "C
+b1111 Q
+b1111 /
+b00000001010 "/
+b00000001010 "A
+b0010 "$
+b0000000000000000 "#
+b00000001010 !
+0"1
+b000 "2
+b000 "0
+b000 "6
+b000 "4
+b00000 "5
+b0000 "7
+b000 "9
+b00000000000 ":
+b00000000000 "*
+b00000000000 ")
+b00000000000 ".
+b00000000000 "-
+b000 "!
+b000 "+
+b000 |
+b000 "Q
+#400
+0%
+#410
+1%
+b0000 Q
+b0011 "F
+b0011 "$
+b0000 /
+b1100100001100100 .
+b00000000100 5
+b00000000100 4
+b00001100100 9
+1<
+b100 =
+b100 ;
+b001 C
+b100 A
+b100 ?
+b00100 @
+b0100 B
+b001 D
+b00001100100 E
+b100 ,
+b001 +
+b101 6
+b100 )
+b00001100100 8
+b100 \
+b001 V
+b000001100100 S
+b00001100100 R
+b00001100100 7
+0F
+1G
+b00001100100 0
+b00001100100 2
+b1111 P
+#420
+0%

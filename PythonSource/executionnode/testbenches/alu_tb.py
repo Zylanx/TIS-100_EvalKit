@@ -1,7 +1,5 @@
 __author__ = 'Zylanx'
 
-__author__ = 'Zylanx'
-
 from random import randrange
 from myhdl import *
 

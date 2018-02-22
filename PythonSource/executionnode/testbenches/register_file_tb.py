@@ -5,22 +5,22 @@ from myhdl import *
 
 from executionnode.components import RegisterFile
 
+from executionnode.utils import regOpEnum
+
 @block
 def testbench():
 	clk = Signal(bool(0))
 	rst = ResetSignal(1, 1, False)
-	ce = Signal(bool(1))
+	clkEnable = Signal(bool(1))
 	
-	load = Signal(bool(0))
-	sav = Signal(bool(0))
-	swp = Signal(bool(0))
+	regOp = Signal(regOpEnum.intbv(regOpEnum.NOP))
 	data_in = Signal(intbv(0, -999, 1000))
 	data_out = Signal(intbv(0, -999, 1000))
 	
 	acc = Signal(intbv(0, -999, 1000))
 	bak = Signal(intbv(0, -999, 1000))
 	
-	dut = RegisterFile(clk, rst, ce, load, sav, swp, data_in, data_out, acc, bak)
+	dut = RegisterFile(clk, rst, clkEnable, regOp, data_in, data_out, acc, bak)
 	
 	clkPeriod = delay(10)
 	
@@ -33,28 +33,24 @@ def testbench():
 		yield clk.negedge
 		rst.next = 0
 		
-		load.next = 1
+		regOp.next = regOpEnum.STORE
 		data_in.next = 20
 		yield clk.negedge
 		
-		load.next = 0
-		swp.next = 1
+		regOp.next = regOpEnum.SWP
 		yield clk.negedge
 		
-		swp.next = 0
-		load.next = 1
+		regOp.next = regOpEnum.STORE
 		data_in.next = 999
 		yield clk.negedge
 		
-		load.next = 0
-		swp.next = 1
+		regOp.next = regOpEnum.SWP
 		yield clk.negedge
 		
-		swp.next = 0
-		sav.next = 1
+		regOp.next = regOpEnum.SAV
 		yield clk.negedge
 		
-		sav.next = 0
+		regOp.next = regOpEnum.NOP
 		yield clk.negedge
 		
 		raise StopSimulation
@@ -66,7 +62,7 @@ def testbench():
 			yield clk.posedge
 			yield delay(1)
 			# print(str(int(data_out)))
-			print("load: {}, sav: {}, swp: {}".format(bool(load), bool(sav), bool(swp)))
+			print("regOp: {}".format(regOpEnum.toStr(regOp.val)))
 			print("acc: {:d}, bak: {:d}".format(int(acc), int(bak)))
 			
 	return clkProcess, stimProcess, dut, monitor

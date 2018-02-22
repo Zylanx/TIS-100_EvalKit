@@ -1,0 +1,4 @@
+The Register File holds 2 registers. ACC and BAK.
+When the registers are swapped. Rather than actually setting the value,
+it just changes the register considered as "BAK" to be considered as "ACC" and the same to the
+register considered "ACC"

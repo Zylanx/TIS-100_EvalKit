@@ -3,25 +3,29 @@ __author__ = 'Zylanx'
 from myhdl import block, always_comb, Signal, intbv
 
 from executionnode.utils import StatusBitInterface
+from executionnode.utils import aluOpEnum
 
 @block
-def ALU(input1, input2, aluOpType, aluStatusBits: StatusBitInterface, dataOut):
+def ALU(input1, input2, aluOp, aluStatusBits: StatusBitInterface, dataOut):
 
 	intAcc = Signal(intbv(0, -1998, 1999))
 	outputInt = Signal(intbv(0, -999, 1000))
 
 	@always_comb
 	def calcProc():
-		if aluOpType == 0:
+		intAcc.next = 0
+		if aluOp == aluOpEnum.ADD:
 			intAcc.next = input1 + input2
-		elif aluOpType == 1:
-			intAcc.next = input2
-		elif aluOpType == 2:
-			intAcc.next = -input1
-		elif aluOpType == 3:
+		elif aluOp == aluOpEnum.SUB:
 			intAcc.next = input1 - input2
-		else:
+		elif aluOp == aluOpEnum.NEG:
+			intAcc.next = -input1
+		elif aluOp == aluOpEnum.PASS_ACC:
 			intAcc.next = input1
+		elif aluOp == aluOpEnum.PASS_OTHER:
+			intAcc.next = input2
+		else:
+			pass
 
 	@always_comb
 	def clampProc():

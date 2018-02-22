@@ -1,0 +1,1 @@
+Takes in a 12 bit signed integer and works out if it should be clamped and to what

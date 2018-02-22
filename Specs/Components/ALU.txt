@@ -1,0 +1,4 @@
+The ALU is 2 input
+It has an input and output data-width of 11 bits
+Internally it uses 12 bits simply to allow the required clamping to occur
+(Possible optimisation by using a little look-ahead to work out if it should be clamped or not)

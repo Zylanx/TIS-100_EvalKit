@@ -5,6 +5,7 @@ from myhdl import *
 
 from executionnode.components import TransferControlUnit
 from executionnode.utils import CommInterface
+from executionnode.utils import portTypeEnum, commOpEnum
 
 @block
 def testbench():
@@ -14,10 +15,17 @@ def testbench():
 	
 	commStart = Signal(bool(0))
 	commPause = Signal(bool(0))
-	dataOut = Signal(intbv(0, -999, 1000))
-	rxPort = CommInterface(-999, 1000)
+	commType = Signal(commOpEnum.intbv(commOpEnum.RX))
 	
-	dut = TransferControlUnit(clk, rst, clkEnable, commStart, commPause, dataOut, rxPort)
+	rxPort = Signal(portTypeEnum.intbv(portTypeEnum.NIL))
+	txPort = Signal(portTypeEnum.intbv(portTypeEnum.NIL))
+	
+	dataIn = Signal(intbv(0, -999, 1000))
+	dataOut = Signal(intbv(0, -999, 1000))
+	rxLeft = CommInterface(-999, 1000)
+	txLeft = CommInterface(-999, 1000)
+	
+	dut = TransferControlUnit(clk, rst, clkEnable, commStart, commPause, commType, rxPort, txPort, dataIn, dataOut, rxLeft, CommInterface(-999, 1000), CommInterface(-999, 1000), CommInterface(-999, 1000), txLeft, CommInterface(-999, 1000), CommInterface(-999, 1000), CommInterface(-999, 1000))
 	
 	clkPeriod = delay(10)
 	
@@ -31,26 +39,30 @@ def testbench():
 		rst.next = 0
 		
 		yield clk.negedge
-		rxPort.req.next = 0
-		rxPort.data.next = 57
+		rxPort.next = portTypeEnum.LEFT
+		txPort.next = portTypeEnum.LEFT
+		
+		yield clk.negedge
+		rxLeft.req.next = 0
+		rxLeft.data.next = 57
 		commStart.next = 1
 		
 		yield clk.negedge
 		commStart.next = 0
-		rxPort.req.next = 1
+		rxLeft.req.next = 1
 		
 		yield clk.negedge
-		rxPort.req.next = 0
-		rxPort.data.next = 0
+		rxLeft.req.next = 0
+		rxLeft.data.next = 0
 		
 		yield clk.negedge
-		rxPort.req.next = 1
-		rxPort.data.next = 87
+		rxLeft.req.next = 1
+		rxLeft.data.next = 87
 		commStart.next = 1
 		
 		yield clk.negedge
-		rxPort.req.next = 0
-		rxPort.data.next = 0
+		rxLeft.req.next = 0
+		rxLeft.data.next = 0
 		commStart.next = 0
 		
 		yield clk.negedge
@@ -64,14 +76,13 @@ def testbench():
 			yield clk.posedge
 			yield delay(1)
 			print("---------")
-			# print(str(int(data_out)))
 			print("commStart: {}, commPause: {}".format(bool(commStart), bool(commPause)))
 			print("dataOut: {:d}".format(int(dataOut)))
-			print("open: {}, req: {}, data: {:d}".format(bool(rxPort.open), bool(rxPort.req), int(rxPort.data)))
+			print("open: {}, req: {}, data: {:d}".format(bool(rxLeft.open), bool(rxLeft.req), int(rxLeft.data)))
 			
 	return clkProcess, stimProcess, dut, monitor
 
 
 tb = testbench()
-# tb.config_sim(trace=True)
+tb.config_sim(trace=True)
 tb.run_sim()

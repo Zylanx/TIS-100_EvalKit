@@ -1,0 +1,34 @@
+### Description: ###
+The Program Counter (PC) points to the current instruction to execute.
+It can increment its value (the normal usage) and can have a value loaded (through jumping).
+
+The PC holds values from 0 to 13 (inclusive).
+This is because the core can only hold 14 instructions (even though it is 4 bit and can have 16 instructions)
+
+[Insert info on clamping]
+
+Loading values and jumps:
+When the PC is loaded with a value beyond the max index, the PC will be set to the last instruciton
+in the memory.
+When it is loaded with a negative value, it goes to the first instruction
+
+
+### Specs: ###
+- 4 bit output
+
+load
+
+
+
+### Interface: ###
+inputs:
+clk -- clock
+rst -- reset
+ce -- clock enable
+
+load -- load value into program counter
+
+addr -- address to load in
+
+outputs:
+out -- PC output value

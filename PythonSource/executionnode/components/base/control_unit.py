@@ -3,14 +3,22 @@ __author__ = 'Zylanx'
 from myhdl import block, always_comb, always_seq, intbv, Signal
 
 from executionnode.utils import PCControlInterface, StatusBitInterface
-from executionnode.utils import opcodeEnum, commOpType, regOpType, portType
+from executionnode.utils import opcodeEnum, commOpEnum, regOpEnum, portTypeEnum, aluOpEnum, inputPipeSrcEnum
 
-from executionnode.utils.enums import convToPortType, convToOpcodeEnum
+# Workaround for MyHDL analysis being unable to process module attributes while in functions
+portTypeEnum_NIL = portTypeEnum.NIL
+portTypeEnum_ACC = portTypeEnum.ACC
 
-# ADD, MOV, SUB, NEG, SAV, SWP, JMP, JRO = range(8)
+
+# TODO: This could be optimised by doing things _properly_.
+
+
+# TODO: This needs a whole redesign.
+# When I was first designed this, I was still learning VHDL.
+# I still am, but I have a bit more of an idea about design now and it is very poor in this.
 
 @block
-def ControlUnit(clk, rst, clkEnable, instr, commPause, commStart, commType: commOpType, aluOp, aluStatusBits: StatusBitInterface, pcControlBits: PCControlInterface, regOp: regOpType, jmpEnable, rxPort, txPort):
+def ControlUnit(instr, commPause, commStart, commType, inputPipeSrc, aluOp, aluStatusBits: StatusBitInterface, pcControlBits: PCControlInterface, regOp, jmpEnable, rxPort, txPort):
 	
 	opcodeType = Signal(intbv(0)[0])
 	opcode = Signal(intbv(0)[3:])
@@ -25,14 +33,8 @@ def ControlUnit(clk, rst, clkEnable, instr, commPause, commStart, commType: comm
 	const = Signal(intbv(0)[11:])
 	
 	def isCommPort(testedPort):
-		""" MyHDL's enum type is _MASSIVELY_ flawed. To the point
-		 that it completely ruins the design and makes it impossible to convert around
-		 like what should be possible without editing the design.
-		 So instead I have to hard code values. """
-		""" TODO: make an issue about this on the MyHDL repo """
-		# TODO: make an issue about this on the MyHDL repo
 		tempPort = int(testedPort.val)
-		if tempPort == 0 or tempPort == 1:
+		if tempPort == portTypeEnum_NIL or tempPort == portTypeEnum_ACC:
 			return False
 		else:
 			return True
@@ -52,43 +54,145 @@ def ControlUnit(clk, rst, clkEnable, instr, commPause, commStart, commType: comm
 		const.next = instr[11:]
 	
 	@always_comb
-	def transferControlUnitProc():
-		rxPort.next = convToPortType(src)
-		txPort.next = convToPortType(dest)
+	def tcuPortProc():
+		rxPort.next = src
+		txPort.next = dest
 		
 	@always_comb
 	def commTypeProc():
-		commType.next = commOpType.RX
+		commType.next = commOpEnum.RX
 		
 		if not opcodeType:
-			if convToOpcodeEnum(opcode) == opcodeEnum.MOV:
+			if opcode == opcodeEnum.MOV:
 				if isCommPort(src):
 					if isCommPort(dest):
-						commType.next = commOpType.RX_TX
+						commType.next = commOpEnum.RX_TX
 				else:
 					if isCommPort(dest):
-						commType.next = commOpType.TX
+						commType.next = commOpEnum.TX
 		else:
 			if isCommPort(constDest):
-				commType.next = commOpType.TX
+				commType.next = commOpEnum.TX
 				
 	@always_comb
 	def aluOpProc():
-		if convToOpcodeEnum(opcode) == opcodeEnum.ADD:
-			pass
-		elif convToOpcodeEnum(opcode) == opcodeEnum.MOV:
-			pass
-		elif convToOpcodeEnum(opcode) == opcodeEnum.SUB:
-			pass
-		elif convToOpcodeEnum(opcode) == opcodeEnum.NEG:
-			pass
-		elif convToOpcodeEnum(opcode) == opcodeEnum.SAV:
-			pass
-		elif convToOpcodeEnum(opcode) == opcodeEnum.SWP:
-			pass
-		elif convToOpcodeEnum(opcode) == opcodeEnum.JMP:
-			pass
-		elif convToOpcodeEnum(opcode) == opcodeEnum.JRO:
+		aluOp.next = aluOpEnum.ADD
+		
+		if opcodeType == 0:
+			if opcode == opcodeEnum.MOV:
+				# TODO: This is a big one. Remove the alu from the loop for moving. Will likely slightly decrease time
+				aluOp.next = aluOpEnum.PASS_OTHER
+			elif opcode == opcodeEnum.SUB:
+				aluOp.next = aluOpEnum.SUB
+			elif opcode == opcodeEnum.NEG:
+				aluOp.next = aluOpEnum.NEG
+			elif opcode == opcodeEnum.JMP:
+				aluOp.next = aluOpEnum.PASS_OTHER
+			elif opcode == opcodeEnum.JRO:
+				aluOp.next = aluOpEnum.PASS_OTHER
+			else:
+				pass
+		elif opcodeType == 1: # Special Opcodes
+			if opcode[2] == opcodeEnum.ADD:
+				""" ADD
+				Handled by the initial value """
+				pass
+			else:
+				""" MOV """
+				aluOp.next = aluOpEnum.PASS_OTHER
+		else:
 			pass
 	
-	return instrAliasProc, transferControlUnitProc, commTypeProc, aluOpProc
+	@always_comb
+	def aluInputPipeProc():
+		""" TODO: This is a terrible way to do this and needs a redesign """
+		inputPipeSrc.next = inputPipeSrcEnum.NIL
+		
+		if opcodeType == 0:
+			if opcode == opcodeEnum.JRO and jroType == 0:
+				inputPipeSrc.next = inputPipeSrcEnum.JRO_OFFSET
+			else:
+				if src == portTypeEnum.NIL:
+					pass
+				elif src == portTypeEnum.ACC:
+					inputPipeSrc.next = inputPipeSrcEnum.ACC
+				else:
+					inputPipeSrc.next = inputPipeSrcEnum.COMM_PORT
+		else:
+			inputPipeSrc.next = inputPipeSrcEnum.CONST
+			
+	@always_comb
+	def jmpEnableProc():
+		jmpEnable.next = 0
+		
+		if opcodeType == 0:
+			if opcode == opcodeEnum.JRO:
+				jmpEnable.next = 1
+			elif opcode == opcodeEnum.JMP:
+				if jmpFlags[2] and aluStatusBits.eq: # Equal to 0
+					jmpEnable.next = 1
+				elif jmpFlags[1] and aluStatusBits.gt:
+					jmpEnable.next = 1
+				elif jmpFlags[0] and aluStatusBits.lt:
+					jmpEnable.next = 1
+	
+	# TODO: Check this actually covers all cases
+	@always_comb
+	def commStartProc():
+		commStart.next = 0
+		
+		if opcodeType == 0:
+			if opcode == opcodeEnum.ADD:
+				if isCommPort(src):
+					commStart.next = 1
+			elif opcode == opcodeEnum.MOV:
+				if isCommPort(src) or isCommPort(dest):
+					commStart.next = 1
+			elif opcode == opcodeEnum.SUB:
+				if isCommPort(src):
+					commStart.next = 1
+			elif opcode == opcodeEnum.JRO:
+				if jroType:
+					if isCommPort(jroSrc):
+						commStart.next = 1
+		else:
+			if opcode[2] == opcodeEnum.MOV:
+				if isCommPort(constDest):
+					commStart.next = 1
+	
+	@always_comb
+	def pcControlProc():
+		pcControlBits.inc.next = 0
+		pcControlBits.load.next = 0
+		
+		if not commPause:
+			pcControlBits.inc.next = 1
+			
+	@always_comb
+	def regControlProc():
+		regOp.next = regOpEnum.NOP
+		
+		if not commPause:
+			if not opcodeType:
+				if opcode == opcodeEnum.ADD:
+					regOp.next = regOpEnum.STORE
+				elif opcode == opcodeEnum.MOV:
+					if dest == portTypeEnum.ACC:
+						regOp.next = regOpEnum.STORE
+				elif opcode == opcodeEnum.SUB:
+					regOp.next = regOpEnum.STORE
+				elif opcode == opcodeEnum.NEG:
+					regOp.next = regOpEnum.STORE
+				elif opcode == opcodeEnum.SAV:
+					regOp.next = regOpEnum.SAV
+				elif opcode == opcodeEnum.SWP:
+					regOp.next = regOpEnum.SWP
+			else:
+				if opcode[2] == opcodeEnum.ADD:
+					regOp.next = regOpEnum.STORE
+				else:
+					if constDest == portTypeEnum.ACC:
+						regOp.next = regOpEnum.STORE
+			
+	
+	return instrAliasProc, tcuPortProc, commTypeProc, aluOpProc, aluInputPipeProc, jmpEnableProc, commStartProc, pcControlProc, regControlProc

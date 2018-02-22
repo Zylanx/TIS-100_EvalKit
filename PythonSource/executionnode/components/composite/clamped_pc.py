@@ -5,7 +5,7 @@ from myhdl import block, Signal, intbv
 from executionnode.components import PC, PCClamper
 
 @block
-def ClampedPC(clk, rst, clkEnable, inc, load, dataLoad, pcOut):
+def ClampedPC(clk, rst, clkEnable, pcControlBits, dataLoad, pcOut):
 	""" PC (Program Counter).
 
 	inputs:
@@ -23,6 +23,6 @@ def ClampedPC(clk, rst, clkEnable, inc, load, dataLoad, pcOut):
 	clampedData = Signal(intbv(0, 0, 16))
 	
 	pc_clamp_1 = PCClamper(dataLoad, clampedData)
-	pc_1 = PC(clk, rst, clkEnable, inc, load, clampedData, pcOut)
+	pc_1 = PC(clk, rst, clkEnable, pcControlBits, clampedData, pcOut)
 	
 	return pc_clamp_1, pc_1

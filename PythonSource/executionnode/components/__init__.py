@@ -7,5 +7,7 @@ from .base.register_file import RegisterFile
 from .base.alu import ALU
 from .base.transfer_control_unit import TransferControlUnit
 from .base.instr_rom import InstrROM
+from .base.instr_breakout import InstrBreakout
 
 from .composite.clamped_pc import ClampedPC
+from .composite.node_core import NodeCore
